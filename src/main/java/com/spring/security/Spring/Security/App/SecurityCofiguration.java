@@ -1,3 +1,4 @@
+/*
 package com.spring.security.Spring.Security.App;
 
 import org.springframework.context.annotation.Bean;
@@ -39,3 +40,4 @@ public class SecurityCofiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin();
     }
 }
+*/
