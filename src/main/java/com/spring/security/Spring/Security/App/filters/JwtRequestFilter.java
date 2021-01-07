@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//This class is going to intercept every request just once and then examine the header
+
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -25,21 +27,29 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
+    //this method will do filter internally.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
+        //get the authorization header
         final String authorizationHeader = request.getHeader("Authorization");
 
         String username = null;
         String jwt = null;
 
+        //verify authorizationHeader is not null and start with Bearer
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
 
 
+        //now i have the username then with this username i will load the userdetails
+        //then i will validate the jwt token with the validate method of util class
+        //if the token is not null and expire then i am going  create the usernamepassword authentication token which is the default token
+        //this default token will use by Spring
+        //then i will set the details
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

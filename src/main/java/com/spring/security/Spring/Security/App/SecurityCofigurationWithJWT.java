@@ -28,14 +28,15 @@ public class SecurityCofigurationWithJWT extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(myUserDetailsService);
     }
 
+    /*It authorizes request for /authenticate and permit everybody with this endpoint*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests().antMatchers("/authenticate").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);/* this line says, Hey Spring Security dont manage the sessions or create sessions*/
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); /*this filter is call before username and password filter*/
     }
 
     @Override

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
+
+    //this loadUserByUsername method will call by Spring in order to load a user by username
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         return new User("foo", "foo",new ArrayList<>());
